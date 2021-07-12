@@ -125,40 +125,40 @@ def MCMC(Max_round,ciphertext,score_M2,start_key):
     return best_key
 
 #Input
-Ref_path=("F_ref.txt")
+
+Ref_path=(input("Reference text file name:"))
 file=open(input("Ciphertext: "),'r',encoding='utf-8')
 all_Cipher=file.read()
+split_num=int(input("How long you would like to split your cipher if it's too long (>500 better):"))
+Max_round=int(input("How many round of a mcmc algorithm :"))
 
 #Prepare
 score_M2=score_ref(Ref_path)
 all_Cipher=all_Cipher.lower()
+copy_Cipher=all_Cipher
+
 
 #GO
-plain=""
 part=0
 dec_key=string.ascii_lowercase
 while(1):
-    if(len(all_Cipher)>500):
-        pos=500
+    if(len(all_Cipher)>split_num):
+        pos=split_num
         while(all_Cipher[pos]!=' '):
             pos=pos-1
         pos+=1
         Cipher=all_Cipher[0:pos]
         all_Cipher=all_Cipher[pos:]
-        dec_key=MCMC(50000,Cipher,score_M2,dec_key)
-        plain=plain+decrypt(Cipher,dec_key)
-        print("Plain\n",plain)
+        dec_key=MCMC(Max_round,Cipher,score_M2,dec_key)
         part+=1
     else:
         Cipher=all_Cipher
         all_Cipher=""
         if(part==0):
-            dec_key=MCMC(50000,Cipher,score_M2,dec_key)
-            plain=plain+decrypt(Cipher,dec_key)
-        else:
-            plain=plain+decrypt(Cipher,dec_key)
-        print("Plain\n",plain)
+            dec_key=MCMC(Max_round,Cipher,score_M2,dec_key)
     if(len(all_Cipher)==0):
         break
+plain=decrypt(copy_Cipher,dec_key)
+print("The plaintext we solved is :\n",plain)
 file.close()
 os.system("pause")
