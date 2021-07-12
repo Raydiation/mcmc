@@ -1,4 +1,4 @@
 # mcmc
-初次試用一下github
+初次試用一下github \n
 放放看用Metropolis–Hastings algorithm破替代密的python code
 有參考網路上其他篇
